@@ -5,6 +5,7 @@ import gem from "../assets/gem.png";
 const Gameboard = ({
     bombCount,
     handleGameOver,
+    handleSafeClick,
     isGameStarted,
     clickCount,
     setClickCount,
@@ -53,6 +54,7 @@ const Gameboard = ({
         setGameState(newGameState);
         const newClickCount = clickCount+1;
         setClickCount(newClickCount);
+        handleSafeClick(newClickCount);
 
         if(newClickCount === 25 - bombCount) {
           handleGameOver(true);

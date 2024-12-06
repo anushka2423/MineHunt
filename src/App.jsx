@@ -9,7 +9,6 @@ function App() {
     // State hooks to manage the game data
     const [bombCount, setBombCount] = useState("2");
     const [betAmount, setBetAmount] = useState("0");
-    const [currentWinnings, setCurrentWinnings] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [clickCount, setClickCount] = useState(0);
@@ -17,7 +16,7 @@ function App() {
     console.log(bombCount);
 
     // Calculate probability of selecting a safe tile
-    const calculateProbability = useCallback(
+    const calculateProbability = useCallback(  
         (safeClicks) => {
             const remainingSafeTiles = 24 - parseInt(bombCount) - safeClicks;
             const remainingTotalTiles = 24 - safeClicks;
@@ -41,22 +40,20 @@ function App() {
     // Handle a safe click and update current winnings
     const handleSafeClick = useCallback((newClickCount) => {
         setClickCount(newClickCount);
-        const newWinnings = calculatePayout(newClickCount);
-        setCurrentWinnings(newWinnings);
+        calculatePayout(newClickCount);
     }, [calculatePayout]);
 
     // Handle game over, reset or keep winnings based on home run
     const handleGameOver = useCallback((isHomeRun) => {
         setGameOver(true);
         if (!isHomeRun) {
-            setCurrentWinnings(0);
         }
         setIsGameStarted(false);
     }, []);
 
     // Start the game with validation for bomb count and bet amount
     const handleStartGame = () => {
-        const bombCountNum = parseInt(bombCount, 10);
+        const bombCountNum = parseInt(bombCount);
         const betAmountNum = parseInt(betAmount);
 
         if (isNaN(bombCountNum) || bombCount < 1 || bombCount >= 24) {
@@ -72,7 +69,6 @@ function App() {
         // Reset game state and start a new game
         setIsGameStarted(true);
         setGameOver(false);
-        setCurrentWinnings(0);
         setClickCount(0);
     };
 
@@ -92,13 +88,10 @@ function App() {
                 {/* Sidebar and Game Board */}
                 <div className="flex w-full h-[100%] bg-gray-800 rounded-lg shadow-lg">
                     <Sidebar
-                        betAmount={betAmount}
-                        handleBetAmountChange={handleBetAmountChange}
-                        isGameStarted={isGameStarted}
                         bombCount={bombCount}
+                        handleBetAmountChange={handleBetAmountChange}
                         handleBombCountChange={handleBombCountChange}
-                        gameOver={gameOver}
-                        currentWinnings={currentWinnings}
+                        isGameStarted={isGameStarted}
                         handleStartGame={handleStartGame}
                     />
                     <div
@@ -111,7 +104,7 @@ function App() {
                     >
                         <div className="flex flex-col items-center justify-center h-full">
                             <div className="text-white bg-[#323738] w-3/4 rounded py-2 text-lg mb-12">
-                                {"Game result will be displayed"}
+                                {!gameOver ? "Game result will be displayed" : "Game Over!!"}
                             </div>
                             <Gameboard
                                 bombCount={parseInt(bombCount)}
@@ -120,7 +113,6 @@ function App() {
                                 isGameStarted={isGameStarted}
                                 clickCount={clickCount}
                                 setClickCount={setClickCount}
-                                currentWinnings={currentWinnings}
                             />
                         </div>
                     </div>
