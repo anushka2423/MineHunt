@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset the root element styles to remove any default margin or padding */
+#root{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ------------------------------
+   Range Slider Styles
+   ------------------------------ */
+
+/* Style the range slider track */
+.range-slider {
+    width: 100%;
+    height: 6px;
+    background-color: gray;
+}
+
+/* General input range styling */
+input[type="range"] {
+    appearance: none;
+    border-radius: 10px;
+}
+  
+/* Custom styling for the range slider thumb (scroller) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 20px;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* ------------------------------
+   Custom Animations in GameBoard
+   ------------------------------ */
+
+/* Animation: Reveal
+   Makes an element grow from invisible to full size */
+@keyframes reveal {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Apply the reveal Gem animation */
+  .animate-reveal {
+    animation: reveal 0.4s ease-out forwards;
+  }
+  
+
+/* Animation: Pop Back
+   Simulates an element returning to its original position after an explosion effect */
+  @keyframes pop-back {
+    0% {
+      transform: scale(2) translate(0, -40px); 
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+  }
+
+  /* Apply the pop-back Bomb animation */
+  .animate-pop-back {
+    animation: pop-back 0.6s ease-out forwards;
+  }
+  
