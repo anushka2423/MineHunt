@@ -32,7 +32,7 @@ const Sidebar = ({
             >
               Manual
               {activeTab === "manual" && (
-                <div
+                <div   
                   className="absolute left-0 bottom-0 h-[2px] w-1/2"
                   style={{
                     backgroundColor: "#26a776",

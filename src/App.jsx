@@ -11,43 +11,12 @@ function App() {
     const [betAmount, setBetAmount] = useState("0");
     const [gameOver, setGameOver] = useState(false);
     const [isGameStarted, setIsGameStarted] = useState(false);
-    const [clickCount, setClickCount] = useState(0);
 
     console.log(bombCount);
 
-    // Calculate probability of selecting a safe tile
-    const calculateProbability = useCallback(  
-        (safeClicks) => {
-            const remainingSafeTiles = 24 - parseInt(bombCount) - safeClicks;
-            const remainingTotalTiles = 24 - safeClicks;
-            return remainingSafeTiles / remainingTotalTiles;
-        },
-        [bombCount]
-    );
-
-    // Calculate payout based on safe clicks and probability
-    const calculatePayout = useCallback(
-        (safeClicks) => {
-            let payout = parseInt(betAmount);
-            for (let i = 0; i < safeClicks; i++) {
-                payout /= calculateProbability(i);
-            }
-            return payout;
-        },
-        [betAmount, calculateProbability]
-    );
-
-    // Handle a safe click and update current winnings
-    const handleSafeClick = useCallback((newClickCount) => {
-        setClickCount(newClickCount);
-        calculatePayout(newClickCount);
-    }, [calculatePayout]);
-
     // Handle game over, reset or keep winnings based on home run
-    const handleGameOver = useCallback((isHomeRun) => {
+    const handleGameOver = useCallback(() => {
         setGameOver(true);
-        if (!isHomeRun) {
-        }
         setIsGameStarted(false);
     }, []);
 
@@ -69,7 +38,6 @@ function App() {
         // Reset game state and start a new game
         setIsGameStarted(true);
         setGameOver(false);
-        setClickCount(0);
     };
 
     // Handle changes to bomb count
@@ -108,11 +76,8 @@ function App() {
                             </div>
                             <Gameboard
                                 bombCount={parseInt(bombCount)}
-                                handleSafeClick={handleSafeClick}
                                 handleGameOver={handleGameOver}
                                 isGameStarted={isGameStarted}
-                                clickCount={clickCount}
-                                setClickCount={setClickCount}
                             />
                         </div>
                     </div>

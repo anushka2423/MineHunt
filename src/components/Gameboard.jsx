@@ -5,10 +5,7 @@ import gem from "../assets/gem.png";
 const Gameboard = ({
     bombCount,
     handleGameOver,
-    handleSafeClick,
     isGameStarted,
-    clickCount,
-    setClickCount,
   }) => {
     // Initialize the game state and bomb positions
     const grid = Array(25).fill("hidden");
@@ -34,7 +31,6 @@ const Gameboard = ({
       // Update state with the new game setup
       setGameState(newGameState);
       setBombPositions(newBombPosition);
-      setClickCount(0);
     };
 
     // Handle click events on a grid cell
@@ -47,18 +43,12 @@ const Gameboard = ({
         // Reveal bomb and end the game if a bomb is clicked
         newGameState[index] = "Bomb";
         setGameState(newGameState);
-        handleGameOver(false);
+        handleGameOver();
+
       }else {
         // Reveal a gem and update the click count
         newGameState[index] = "gem";
         setGameState(newGameState);
-        const newClickCount = clickCount+1;
-        setClickCount(newClickCount);
-        handleSafeClick(newClickCount);
-
-        if(newClickCount === 25 - bombCount) {
-          handleGameOver(true);
-        }
       }
     };
 
