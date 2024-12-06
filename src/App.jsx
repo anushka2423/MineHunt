@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import './App.css';
 import Footer from './components/Footer';
-import Gameboard from './components/GameBoard';
+import Gameboard from './components/Gameboard';
 import Sidebar from './components/Sidebar';
 import backgroundImage from './assets/background.png';
 
